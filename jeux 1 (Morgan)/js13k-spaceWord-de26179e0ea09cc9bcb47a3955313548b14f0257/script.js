@@ -455,3 +455,13 @@ function restartStateGame() {
     lastTime = 0
     invencibilityTime = 2000
 }
+
+// tests Jest
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = {
+        getRandomInt,
+        rectIntersect,
+        circleIntersect,
+        timeToString
+    };
+}
