@@ -1,0 +1,67 @@
+name: CI/CD Pipeline - Jeux VideoPS
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  # ---CI ---
+  integration-spaceword:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257"
+    
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: "jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/package-lock.json"
+
+      - name: Installation des dépendances
+        run: npm install
+
+      - name: Exécution du Linter (Google Style)
+        run: npm run lint
+
+      - name: Exécution des Tests Unitaires (Jest)
+        run: npm test
+
+      - name: Audit de sécurité des dépendances
+        run: npm audit --audit-level=high
+
+  # ---CD ---
+  build-and-push-docker:
+    needs: integration-spaceword
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Connexion au registre GitHub (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build et Push de l'image SpaceWord
+        uses: docker/build-push-action@v5
+        with:
+          context: "./jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257"
+          file: "./jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/Dockerfile"
+          push: true
+          tags: ghcr.io/${{ github.repository }}/spaceword:latest

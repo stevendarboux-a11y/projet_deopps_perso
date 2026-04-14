@@ -1,8 +1,11 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-google": "^0.14.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0"
   }
