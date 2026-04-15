@@ -1,0 +1,47 @@
+body {
+            background-color: #111;
+            color: #eee;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+        }
+        h1 {
+            color: #ecbb15;
+            text-shadow: 2px 2px #555;
+            font-size: 3em;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .card {
+            background-color: #222;
+            border: 2px solid #ecbb15;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card h2 {
+            color: #fff;
+        }
+        .play-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #17ac90;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .play-btn:hover {
+            background-color: #128a73;
+        }

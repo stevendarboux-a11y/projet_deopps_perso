@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  # ---CI ---
+  # --- CI ---
   integration-spaceword:
     runs-on: ubuntu-latest
     defaults:
@@ -38,7 +38,7 @@ jobs:
       - name: Audit de sécurité des dépendances
         run: npm audit --audit-level=high
 
-  # ---CD ---
+  # --- CD ---
   build-and-push-docker:
     needs: integration-spaceword
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -65,3 +65,11 @@ jobs:
           file: "./jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/Dockerfile"
           push: true
           tags: ghcr.io/${{ github.repository }}/spaceword:latest
+          
+      - name: Build et Push de l'image Portail
+        uses: docker/build-push-action@v5
+        with:
+          context: ./portail
+          file: ./portail/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}/portail:latest
