@@ -73,3 +73,12 @@ jobs:
           file: ./portail/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}/portail:latest
+
+      - name: Exécution des Tests Unitaires (Jest)
+        run: npm test
+
+      - name: Exécution des Tests Fonctionnels (Cypress)
+        run: npm run test:e2e
+
+      - name: Audit de sécurité des dépendances
+        run: npm audit --audit-level=high

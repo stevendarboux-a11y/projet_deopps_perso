@@ -1,7 +1,8 @@
 {
   "scripts": {
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:e2e": "cypress run"
   },
   "devDependencies": {
     "cypress": "^15.13.1",
