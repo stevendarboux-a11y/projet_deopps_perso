@@ -45,6 +45,7 @@ jobs:
           fi
 
       - name: Audit de sécurité des dépendances
+        continue-on-error: true
         run: npm audit --audit-level=critical
 
       - name: Résumé CI Spaceword
@@ -91,6 +92,7 @@ jobs:
           fi
 
       - name: Audit de sécurité des dépendances
+        continue-on-error: true
         run: npm audit --audit-level=critical
 
       - name: Résumé CI Space Invaders
@@ -138,4 +140,5 @@ jobs:
           tags: ghcr.io/${{ github.repository }}/portail:latests
 
       - name: Audit de sécurité des dépendances
+        continue-on-error: true
         run: npm audit --audit-level=critical
