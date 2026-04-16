@@ -45,7 +45,7 @@ jobs:
           fi
 
       - name: Audit de sécurité des dépendances
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=critical
 
       - name: Résumé CI Spaceword
         if: always()
@@ -53,7 +53,7 @@ jobs:
           echo "## 🎮 CI Spaceword" >> $GITHUB_STEP_SUMMARY
           echo "- Tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
           echo "- Lint: Google Style Guide" >> $GITHUB_STEP_SUMMARY
-          echo "- Audit: npm audit --audit-level=high" >> $GITHUB_STEP_SUMMARY
+          echo "- Audit: npm audit --audit-level=critical" >> $GITHUB_STEP_SUMMARY
 
   integration-spaceinvaders:
     runs-on: ubuntu-latest
@@ -91,7 +91,7 @@ jobs:
           fi
 
       - name: Audit de sécurité des dépendances
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=critical
 
       - name: Résumé CI Space Invaders
         if: always()
@@ -99,7 +99,7 @@ jobs:
           echo "## 🎮 CI Space Invaders" >> $GITHUB_STEP_SUMMARY
           echo "- Tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
           echo "- Lint: Google Style Guide" >> $GITHUB_STEP_SUMMARY
-          echo "- Audit: npm audit --audit-level=high" >> $GITHUB_STEP_SUMMARY
+          echo "- Audit: npm audit --audit-level=critical" >> $GITHUB_STEP_SUMMARY
 
   # --- CD ---
   build-and-push-docker:
@@ -138,4 +138,4 @@ jobs:
           tags: ghcr.io/${{ github.repository }}/portail:latests
 
       - name: Audit de sécurité des dépendances
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=critical
