@@ -21,7 +21,7 @@ export function toPolarVector(vector: Vector): PolarVector {
 
 export function distance(a: PolarVector, b: PolarVector): number {
   return Math.sqrt(
-    a.radius ** 2 +
+      a.radius ** 2 +
       b.radius ** 2 -
       2 * a.radius * b.radius * Math.cos(a.angle - b.angle),
   );
