@@ -1,0 +1,10 @@
+node_modules/
+cypress/
+.git
+.gitignore
+.DS_Store
+*.test.js
+cypress.config.js
+package-lock.json
+.eslintrc.json
+README.md
