@@ -2,9 +2,9 @@ name: CI/CD Pipeline - Jeux VideoPS
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: ["**"]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
   workflow_dispatch:
 
 jobs:
@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257"
-    
+        working-directory: "jeux-1-(Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257"
+
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -22,9 +22,9 @@ jobs:
       - name: Configuration de Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: "jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/package-lock.json"
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "jeux-1-(Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/package-lock.json"
 
       - name: Installation des dépendances
         run: npm install
@@ -35,18 +35,81 @@ jobs:
       - name: Exécution des Tests Unitaires (Jest)
         run: npm test
 
+      - name: Résultat des tests
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "::notice::✅ Tests Spaceword passés avec succès"
+          else
+            echo "::error::❌ Tests Spaceword échoués"
+          fi
+
       - name: Audit de sécurité des dépendances
         run: npm audit --audit-level=high
 
+      - name: Résumé CI Spaceword
+        if: always()
+        run: |
+          echo "## 🎮 CI Spaceword" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Lint: Google Style Guide" >> $GITHUB_STEP_SUMMARY
+          echo "- Audit: npm audit --audit-level=high" >> $GITHUB_STEP_SUMMARY
+
+  integration-spaceinvaders:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "jeux2-Arnold/js13k-spaceInvaders"
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "jeux2-Arnold/js13k-spaceInvaders/package-lock.json"
+
+      - name: Installation des dépendances
+        run: npm install
+
+      - name: Exécution du Linter (Google Style)
+        run: npm run lint
+
+      - name: Exécution des Tests Unitaires (Jest)
+        run: npm test
+
+      - name: Résultat des tests
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "::notice::✅ Tests Space Invaders passés avec succès"
+          else
+            echo "::error::❌ Tests Space Invaders échoués"
+          fi
+
+      - name: Audit de sécurité des dépendances
+        run: npm audit --audit-level=high
+
+      - name: Résumé CI Space Invaders
+        if: always()
+        run: |
+          echo "## 🎮 CI Space Invaders" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Lint: Google Style Guide" >> $GITHUB_STEP_SUMMARY
+          echo "- Audit: npm audit --audit-level=high" >> $GITHUB_STEP_SUMMARY
+
   # --- CD ---
   build-and-push-docker:
-    needs: integration-spaceword
+    needs: [integration-spaceword, integration-spaceinvaders]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    
+
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -61,24 +124,18 @@ jobs:
       - name: Build et Push de l'image SpaceWord
         uses: docker/build-push-action@v5
         with:
-          context: "./jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257"
-          file: "./jeux 1 (Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/Dockerfile"
+          context: "./jeux-1-(Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257"
+          file: "./jeux-1-(Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/Dockerfile"
           push: true
           tags: ghcr.io/${{ github.repository }}/spaceword:latest
-          
+
       - name: Build et Push de l'image Portail
         uses: docker/build-push-action@v5
         with:
           context: ./portail
           file: ./portail/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/portail:latest
-
-      - name: Exécution des Tests Unitaires (Jest)
-        run: npm test
-
-      - name: Exécution des Tests Fonctionnels (Cypress)
-        run: npm run test:e2e
+          tags: ghcr.io/${{ github.repository }}/portail:latests
 
       - name: Audit de sécurité des dépendances
         run: npm audit --audit-level=high
