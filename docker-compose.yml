@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+    portail:
+        build:
+            context: ./portail
+            dockerfile: Dockerfile
+        ports:
+            - "8080:80"
+
+    spaceword:
+        build:
+            context: "./jeux-1-(Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257"
+            dockerfile: Dockerfile
+        ports:
+            - "8081:80"
+        environment:
+            - NGINX_HOST=localhost
+            - NGINX_PORT=80
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/index.html"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 5s

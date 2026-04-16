@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "test:e2e": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^15.13.1",
+    "eslint": "^8.57.1",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0"
+  }
+}
