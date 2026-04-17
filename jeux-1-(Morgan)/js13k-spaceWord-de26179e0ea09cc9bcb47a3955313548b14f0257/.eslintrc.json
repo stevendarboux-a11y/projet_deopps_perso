@@ -25,6 +25,22 @@
                 "no-unused-vars": "off",
                 "no-undef": "off"
             }
+        },
+        {
+            "files": ["cypress.config.js"],
+            "rules": {
+                "no-unused-vars": "off"
+            }
+        },
+        {
+            "files": ["*.test.js"],
+            "rules": {
+                "no-unused-vars": "off",
+                "quotes": "off",
+                "no-tabs": "off",
+                "indent": "off",
+                "object-curly-spacing": "off"
+            }
         }
     ]
 }
