@@ -130,10 +130,10 @@ jobs:
       - name: Build et Push de l'image Portail
         uses: docker/build-push-action@v5
         with:
-          context: ./portail
-          file: ./portail/Dockerfile
+          context: ./Portail
+          file: ./Portail/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/portail:latests
+          tags: ghcr.io/${{ github.repository }}/Portail:latests
 
       - name: Audit de sécurité des dépendances
         run: npm audit --audit-level=critical
