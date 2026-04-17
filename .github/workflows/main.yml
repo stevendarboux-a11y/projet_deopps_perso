@@ -137,3 +137,51 @@ jobs:
 
       - name: Audit de sécurité des dépendances
         run: npm audit --audit-level=critical
+
+  # --- GitHub Pages ---
+  deploy-github-pages:
+    needs: [integration-spaceinvaders]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Installation et build Space Invaders
+        working-directory: "jeux2-Arnold/js13k-spaceInvaders"
+        run: |
+          npm install                       
+          npm run build
+
+      - name: Préparation du dossier gh-pages
+        run: |
+          mkdir -p gh-pages/spaceinvaders
+          mkdir -p gh-pages/spaceword
+          cp Portail/index.html gh-pages/   
+          cp Portail/styles.css gh-pages/
+          cp -r jeux2-Arnold/js13k-spaceInvaders/build/. gh-pages/spaceinvaders/
+          cp "jeux-1-(Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/index.html" gh-pages/spaceword/                                                  
+          cp "jeux-1-(Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/script.js" gh-pages/spaceword/
+          cp "jeux-1-(Morgan)/js13k-spaceWord-de26179e0ea09cc9bcb47a3955313548b14f0257/style.css" gh-pages/spaceword/
+
+      - name: Upload artefact GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: gh-pages/
+
+      - name: Déploiement GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
