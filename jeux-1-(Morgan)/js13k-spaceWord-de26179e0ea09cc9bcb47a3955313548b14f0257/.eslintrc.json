@@ -16,5 +16,15 @@
         "valid-jsdoc": "off",
         "max-len": "off",
         "no-unused-vars": ["error", { "varsIgnorePattern": "^(beginGame|sike|restartStateGame)$" }]
-    }
+    },
+    "ignorePatterns": ["dist/", "node_modules/", "*.min.js"],
+    "overrides": [
+        {
+            "files": ["**/script.js"],
+            "rules": {
+                "no-unused-vars": "off",
+                "no-undef": "off"
+            }
+        }
+    ]
 }
