@@ -133,7 +133,7 @@ jobs:
           context: ./Portail
           file: ./Portail/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/Portail:latests
+          tags: ghcr.io/${{ github.repository }}/portail:latests
 
       - name: Audit de sécurité des dépendances
         run: npm audit --audit-level=critical
