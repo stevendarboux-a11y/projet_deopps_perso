@@ -45,7 +45,6 @@ jobs:
           fi
 
       - name: Audit de sécurité des dépendances
-        continue-on-error: true
         run: npm audit --audit-level=critical
 
       - name: Résumé CI Spaceword
@@ -92,7 +91,6 @@ jobs:
           fi
 
       - name: Audit de sécurité des dépendances
-        continue-on-error: true
         run: |
           npm audit --audit-level=critical 2>&1 | tee audit-report.txt || true
           CRITICAL=$(grep -c "Severity: critical" audit-report.txt || echo "0")
@@ -138,5 +136,4 @@ jobs:
           tags: ghcr.io/${{ github.repository }}/portail:latests
 
       - name: Audit de sécurité des dépendances
-        continue-on-error: true
         run: npm audit --audit-level=critical
