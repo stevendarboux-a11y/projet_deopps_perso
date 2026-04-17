@@ -13,7 +13,7 @@ Pipeline CI/CD pour deux jeux JS13K : Space Invaders et SpaceWord.
 
 - **Tests** : 19 tests Jest (11 unitaires imposés + 5 supplémentaires + 3 fonctionnels)
 - **Linter** : ESLint Google JavaScript Style Guide
-- **Audit** : npm audit — 0 vulnérabilité critique (réduit de 90 à 71 via `npm audit fix` + `overrides`)
+- **Audit** : npm audit — 0 vulnérabilité critique (réduit de 90 à 18 via `npm audit fix` + `overrides`)
 - **Annotations** : workflow commands GitHub Actions (`::notice::`, `::error::`)
 - **Résumés** : rapport d'audit et statut des jobs dans `$GITHUB_STEP_SUMMARY`
 
@@ -30,4 +30,4 @@ Pipeline CI/CD pour deux jeux JS13K : Space Invaders et SpaceWord.
 
 ## Sécurité
 
-Les vulnérabilités restantes (71) proviennent de `parcel-bundler` v1 (abandonné depuis 2021) et ont le statut "No fix available". La solution en production serait de migrer vers Parcel v2 ou Vite.
+Les vulnérabilités restantes (18) proviennent de `parcel-bundler` v1 (abandonné depuis 2021) et ont le statut "No fix available". La solution en production serait de migrer vers Parcel v2 ou Vite.
