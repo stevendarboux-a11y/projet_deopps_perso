@@ -45,7 +45,13 @@ jobs:
           fi
 
       - name: Audit de sécurité des dépendances
-        run: npm audit --audit-level=critical
+        run: |
+          npm audit --audit-level=critical 2>&1 | tee audit-report.txt || true
+          CRITICAL=$(grep -c "Severity: critical" audit-report.txt || echo "0")
+          HIGH=$(grep -c "Severity: high" audit-report.txt || echo "0")
+          echo "##  Rapport d'audit Spaceword" >> $GITHUB_STEP_SUMMARY
+          echo "- Vulnérabilités critiques : $CRITICAL" >> $GITHUB_STEP_SUMMARY
+          echo "- Vulnérabilités high : $HIGH" >> $GITHUB_STEP_SUMMARY
 
       - name: Résumé CI Spaceword
         if: always()
