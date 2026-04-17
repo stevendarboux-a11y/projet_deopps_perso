@@ -185,3 +185,8 @@ jobs:
       - name: Déploiement GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Affichage de l'url
+        run: |
+          echo "## 🚀 Déploiement GitHub Pages" >> $GITHUB_STEP_SUMMARY
+          echo "- URL : ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
