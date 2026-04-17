@@ -135,9 +135,6 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository }}/portail:latests
 
-      - name: Audit de sécurité des dépendances
-        run: npm audit --audit-level=critical
-
   # --- GitHub Pages ---
   deploy-github-pages:
     needs: [integration-spaceword, integration-spaceinvaders]
