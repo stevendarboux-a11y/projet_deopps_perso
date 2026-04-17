@@ -140,7 +140,7 @@ jobs:
 
   # --- GitHub Pages ---
   deploy-github-pages:
-    needs: [integration-spaceinvaders]
+    needs: [integration-spaceword, integration-spaceinvaders]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
