@@ -93,15 +93,13 @@ jobs:
 
       - name: Audit de sécurité des dépendances
         continue-on-error: true
-        run: npm audit --audit-level=critical
-
-      - name: Résumé CI Space Invaders
-        if: always()
         run: |
-          echo "## 🎮 CI Space Invaders" >> $GITHUB_STEP_SUMMARY
-          echo "- Tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Lint: Google Style Guide" >> $GITHUB_STEP_SUMMARY
-          echo "- Audit: npm audit --audit-level=critical" >> $GITHUB_STEP_SUMMARY
+          npm audit --audit-level=critical 2>&1 | tee audit-report.txt || true
+          CRITICAL=$(grep -c "Severity: critical" audit-report.txt || echo "0")
+          HIGH=$(grep -c "Severity: high" audit-report.txt || echo "0")
+          echo "## 🔒 Rapport d'audit Space Invaders" >> $GITHUB_STEP_SUMMARY
+          echo "- Vulnérabilités critiques : $CRITICAL" >> $GITHUB_STEP_SUMMARY
+          echo "- Vulnérabilités high : $HIGH" >> $GITHUB_STEP_SUMMARY
 
   # --- CD ---
   build-and-push-docker:
