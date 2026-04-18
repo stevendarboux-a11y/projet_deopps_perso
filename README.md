@@ -30,4 +30,15 @@ Pipeline CI/CD pour deux jeux JS13K : Space Invaders et SpaceWord.
 
 ## Sécurité
 
-Les vulnérabilités restantes (18) proviennent de `parcel-bundler` v1 (abandonné depuis 2021) et ont le statut "No fix available". La solution en production serait de migrer vers Parcel v2 ou Vite.
+**Vulnérabilités corrigées :**
+- `npm audit fix` : 90 → 72 vulnérabilités
+- `overrides` (`form-data`, `elliptic`, `braces`, `node-forge`, `nth-check`, `qs`, `tough-cookie`, `terser`) : 72 → 18 vulnérabilités
+- Résultat final : **0 vulnérabilité critique**
+
+**Vulnérabilités restantes (18) — non corrigibles :**
+
+Toutes proviennent de `parcel-bundler` v1, un bundler abandonné depuis 2021. Elles ont le statut "No fix available" — aucune version corrigée n'existe.
+
+Certains overrides (`micromatch`, `postcss`) ont été volontairement exclus car ils cassaient le build de parcel v1 — ces packages font partie de l'API interne de parcel et ne sont pas rétrocompatibles avec les nouvelles versions.
+
+**Solution en production :** migrer vers Parcel v2 ou Vite.
