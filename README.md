@@ -9,10 +9,25 @@ Pipeline CI/CD pour deux jeux JS13K : Space Invaders et SpaceWord.
 - **Space Invaders** — Arnold
 - **SpaceWord** — Morgan
 
-## Pipeline
+## Pipeline CI
 
-- Tests unitaires + fonctionnels (Jest)
-- Linter ESLint (Google Style Guide)
-- Audit de sécurité (npm audit)
-- Déploiement Docker (GHCR)
-- Déploiement GitHub Pages
+- **Tests** : 19 tests Jest (11 unitaires imposés + 5 supplémentaires + 3 fonctionnels)
+- **Linter** : ESLint Google JavaScript Style Guide
+- **Audit** : npm audit — 0 vulnérabilité critique (réduit de 90 à 18 via `npm audit fix` + `overrides`)
+- **Annotations** : workflow commands GitHub Actions (`::notice::`, `::error::`)
+- **Résumés** : rapport d'audit et statut des jobs dans `$GITHUB_STEP_SUMMARY`
+
+## Pipeline CD
+
+- **Docker** : build et push des images vers GitHub Container Registry (GHCR)
+- **GitHub Pages** : déploiement automatique du portail et des deux jeux sur push vers `main`
+
+## Déclencheurs
+
+- Push sur toutes les branches
+- Pull Request vers `main`
+- Déclenchement manuel (`workflow_dispatch`)
+
+## Sécurité
+
+Les vulnérabilités restantes (18) proviennent de `parcel-bundler` v1 (abandonné depuis 2021) et ont le statut "No fix available". La solution en production serait de migrer vers Parcel v2 ou Vite.
